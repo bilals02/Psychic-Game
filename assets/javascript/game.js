@@ -7,13 +7,21 @@
 */
 
 var refDataBank = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+var randomLetter;
 
-var randomLetter = refDataBank[Math.floor(Math.random()*refDataBank.length)];
-console.log(randomLetter);
+function NewRandom() {
+    randomLetter = refDataBank[Math.floor(Math.random()*refDataBank.length)];
+    console.log(randomLetter);
+}
+
+//Generate Random Number
+NewRandom();
 
 //Scoreboard Variables
 var Wins = 0;
 var Losses = 0;
+var GameCounter = 0;
+var TotalAttempts = 5;
 
 document.onkeyup = function(event){ 
     //Capture key pressed by user
@@ -24,18 +32,59 @@ document.onkeyup = function(event){
     if (refDataBank.indexOf(keyPressed.toUpperCase()) === -1){
         alert("Make sure to only enter a letter, try again!");
     }else{
-        //show letter to user, comma delimited
-        document.getElementById("userGuess").innerHTML = "<p>"+ keyPressed +"</p>";
-
-        //compare the guess with computer generated letter
-        if (keyPressed.toUpperCase() === randomLetter){
-            //update scoreboard for win++
-            Wins++;
-
+    //show letter to user, comma delimited
+    document.getElementById("userGuess").innerHTML = "<p>"+ keyPressed +"</p>";
+    
+    //compare the guess with computer generated letter
+    if (keyPressed.toUpperCase() === randomLetter){
+        //update scoreboard for win++
+        win_now();
+        }else{
+            loss_now();
         }
     }
+    
 
-    //Compare user entered letter with Computer generated letter
+function loss_now(){
+    Losses++;
+    GameCountCheck();
+    document.getElementById("card_Loses").innerHTML = "<p>"+ Losses + "</p>";
+    document.getElementById("card_GuessLeft").innerHTML = "<p>"+ TotalAttempts +"</p>";
+    NewRandom();
+}
+
+function win_now(){
+    Wins++;
+    GameCountCheck();
+    document.getElementById("card_Wins").innerHTML = "<p>"+ Wins +"</p>";
+    document.getElementById("card_GuessLeft").innerHTML = "<p>"+ TotalAttempts +"</p>";
+    NewRandom();
+}
+
+function GameCountCheck () {
+    GameCounter++;
+    TotalAttempts--;
+    if (GameCounter === 5){
+        alert("You can only play 5 times!");
+        ResetGame();
+    }
+}
+
+function ResetGame() {
+    GameCount = 0;
+    Wins = 0;
+    Losses = 0;
+    TotalAttempts = 5;
+    document.getElementById("card_GuessLeft").innerHTML = "<p>" +"</p>";
+    document.getElementById("card_Wins").innerHTML = "<p>"+ 0 +"</p>";
+    document.getElementById("card_Loses").innerHTML = "<p>"+ 0 +"</p>";
+    document.getElementById("userGuess").innerHTML = "<p>" + "</p>";
+
+
+
+
+}
+
 
     
 
